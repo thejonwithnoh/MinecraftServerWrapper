@@ -1,0 +1,1 @@
+invoker.print("Hello, invoker!");

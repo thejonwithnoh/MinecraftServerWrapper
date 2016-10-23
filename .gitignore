@@ -1,0 +1,7 @@
+*
+!.gitignore
+!pom.xml
+!license.md
+!readme.md
+!src/
+!scripts/
