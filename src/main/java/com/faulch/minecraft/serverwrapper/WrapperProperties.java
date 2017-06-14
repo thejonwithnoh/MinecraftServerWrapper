@@ -6,6 +6,7 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.lang.reflect.Field;
+import java.nio.charset.Charset;
 import java.util.Properties;
 import java.util.regex.Pattern;
 
@@ -30,6 +31,7 @@ public class WrapperProperties
 	private File scriptDirectory;
 	private String scriptType;
 	private String scriptExtension;
+	private String characterEncoding;
 	
 	/**
 	 * Creates a <code>WrapperProperties</code> object populated with the
@@ -192,5 +194,29 @@ public class WrapperProperties
 	public String getScriptExtension()
 	{
 		return scriptExtension;
+	}
+	
+	/**
+	 * Gets the name of the character encoding used to decode strings which will
+	 * be piped into standard input.
+	 * 
+	 * @return the name of the character encoding used
+	 */
+	public String getCharacterEncoding()
+	{
+		return characterEncoding;
+	}
+	
+	/**
+	 * Gets the <code>Charset</code> derived from the value of the
+	 * <code>characterEncoding</code> property.  If property value is
+	 * <code>null</code>, then the default <code>Charset</code> is returned.
+	 * 
+	 * @return the <code>Charset</code> corresponding to the
+	 *         <code>characterEncoding</code> property
+	 */
+	public Charset getCharset()
+	{
+		return characterEncoding == null ? Charset.defaultCharset() : Charset.forName(characterEncoding);
 	}
 }

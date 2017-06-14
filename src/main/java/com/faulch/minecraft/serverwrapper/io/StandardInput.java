@@ -5,6 +5,7 @@ import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.nio.charset.Charset;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;
 
@@ -22,6 +23,7 @@ import com.faulch.minecraft.serverwrapper.line.LineEmitter;
  */
 public class StandardInput extends LineEmitter
 {
+	private Charset charset;
 	private InputStream originalInput;
 	private BlockingQueue<String> lines;
 	private ByteArrayInputStream lineStream;
@@ -33,8 +35,9 @@ public class StandardInput extends LineEmitter
 	 * lines into standard input, and only provides bytes in batches, one line
 	 * at a time.
 	 */
-	public StandardInput()
+	public StandardInput(Charset charset)
 	{
+		this.charset = charset;
 		originalInput = System.in;
 		lines = new LinkedBlockingQueue<String>();
 		lineStream = new ByteArrayInputStream(new byte[0]);
@@ -65,7 +68,7 @@ public class StandardInput extends LineEmitter
 					{
 						String line;
 						while (emitLine(line = lines.take()));
-						lineStream = new ByteArrayInputStream((line + Utility.lineSeparator).getBytes());
+						lineStream = new ByteArrayInputStream((line + Utility.lineSeparator).getBytes(charset));
 						value = lineStream.read();
 					}
 					catch (InterruptedException e)

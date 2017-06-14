@@ -41,7 +41,7 @@ public class Console
 	public Console(WrapperProperties properties)
 	{
 		this.properties = properties;
-		this.standardInput = new StandardInput();
+		this.standardInput = new StandardInput(properties.getCharset());
 		this.standardOutput = new StandardOutput();
 		addInputProcessor();
 		addOutputProcessor();
