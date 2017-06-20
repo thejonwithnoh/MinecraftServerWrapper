@@ -3,9 +3,6 @@ package com.faulch.minecraft.serverwrapper;
 import java.io.File;
 import java.io.FilenameFilter;
 import java.io.IOException;
-import java.lang.reflect.Method;
-import java.net.URL;
-import java.net.URLClassLoader;
 import java.util.Arrays;
 import java.util.jar.Attributes;
 import java.util.jar.JarFile;
@@ -98,10 +95,8 @@ public class MinecraftServerWrapper
 	{
 		try
 		{
-			Method method = URLClassLoader.class.getDeclaredMethod("addURL", URL.class);
-			method.setAccessible(true);
 			File serverFile = getServerFile();
-			method.invoke(ClassLoader.getSystemClassLoader(), serverFile.toURI().toURL());
+			Utility.loadJar(serverFile);
 			Class.forName(new JarFile(serverFile).getManifest().getMainAttributes().getValue(Attributes.Name.MAIN_CLASS))
 				.getMethod("main", String[].class).invoke(null, (Object)args);
 			return true;

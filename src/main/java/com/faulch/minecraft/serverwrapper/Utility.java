@@ -1,6 +1,9 @@
 package com.faulch.minecraft.serverwrapper;
 
 import java.io.File;
+import java.lang.reflect.Method;
+import java.net.URL;
+import java.net.URLClassLoader;
 import java.util.regex.Pattern;
 
 /**
@@ -90,6 +93,26 @@ public final class Utility
 		else
 		{
 			throw new IllegalArgumentException(type + " is not a supported type.");
+		}
+	}
+	
+	/**
+	 * Loads the specified JAR file using the system class loader.
+	 * 
+	 * @param   file
+	 *          a <code>File</code> location the JAR file to be loaded
+	 */
+	public static final void loadJar(File file)
+	{
+		try
+		{
+			Method method = URLClassLoader.class.getDeclaredMethod("addURL", URL.class);
+			method.setAccessible(true);
+			method.invoke(ClassLoader.getSystemClassLoader(), file.toURI().toURL());
+		}
+		catch (Exception e)
+		{
+			throw new RuntimeException(e);
 		}
 	}
 }
