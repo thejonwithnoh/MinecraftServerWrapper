@@ -32,6 +32,7 @@ public class WrapperProperties
 	private String scriptType;
 	private String scriptExtension;
 	private String characterEncoding;
+	private String executeCommand;
 	
 	/**
 	 * Creates a <code>WrapperProperties</code> object populated with the
@@ -205,6 +206,16 @@ public class WrapperProperties
 	public String getCharacterEncoding()
 	{
 		return characterEncoding;
+	}
+
+	/**
+	 * Gets the execute command format string, which will be used to execute
+	 * commands as the player.
+	 *
+	 * @return the execute command format string
+	 */
+	public String getExecuteCommand() {
+		return executeCommand;
 	}
 	
 	/**

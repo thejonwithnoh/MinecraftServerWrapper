@@ -48,7 +48,7 @@ public class Player extends AbstractInvoker
 	@Override
 	public String execute(String command)
 	{
-		return getConsole().execute("execute " + name + " ~ ~ ~ " + command);
+		return getConsole().execute(String.format(getConsole().getWrapperProperties().getExecuteCommand(), name, command));
 	}
 	
 	/**
