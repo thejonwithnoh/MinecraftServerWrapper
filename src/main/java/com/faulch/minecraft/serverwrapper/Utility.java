@@ -95,24 +95,4 @@ public final class Utility
 			throw new IllegalArgumentException(type + " is not a supported type.");
 		}
 	}
-	
-	/**
-	 * Loads the specified JAR file using the system class loader.
-	 * 
-	 * @param   file
-	 *          a <code>File</code> location the JAR file to be loaded
-	 */
-	public static final void loadJar(File file)
-	{
-		try
-		{
-			Method method = URLClassLoader.class.getDeclaredMethod("addURL", URL.class);
-			method.setAccessible(true);
-			method.invoke(ClassLoader.getSystemClassLoader(), file.toURI().toURL());
-		}
-		catch (Exception e)
-		{
-			throw new RuntimeException(e);
-		}
-	}
 }

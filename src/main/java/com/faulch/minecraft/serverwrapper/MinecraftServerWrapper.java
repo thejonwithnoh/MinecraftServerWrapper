@@ -3,6 +3,8 @@ package com.faulch.minecraft.serverwrapper;
 import java.io.File;
 import java.io.FilenameFilter;
 import java.io.IOException;
+import java.net.URL;
+import java.net.URLClassLoader;
 import java.util.Arrays;
 import java.util.jar.Attributes;
 import java.util.jar.JarFile;
@@ -96,9 +98,15 @@ public class MinecraftServerWrapper
 		try
 		{
 			File serverFile = getServerFile();
-			Utility.loadJar(serverFile);
-			Class.forName(new JarFile(serverFile).getManifest().getMainAttributes().getValue(Attributes.Name.MAIN_CLASS))
-				.getMethod("main", String[].class).invoke(null, (Object)args);
+			Class
+				.forName
+				(
+					new JarFile(serverFile).getManifest().getMainAttributes().getValue(Attributes.Name.MAIN_CLASS),
+					true,
+					URLClassLoader.newInstance(new URL[]{serverFile.toURI().toURL()}, ClassLoader.getSystemClassLoader())
+				)
+				.getMethod("main", String[].class)
+				.invoke(null, (Object)args);
 			return true;
 		}
 		catch (Exception e)
