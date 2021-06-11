@@ -2,6 +2,9 @@ package com.faulch.minecraft.serverwrapper;
 
 import java.io.File;
 import java.io.FileReader;
+import java.io.FilenameFilter;
+import java.net.URL;
+import java.net.URLClassLoader;
 import java.util.regex.Matcher;
 
 import javax.script.ScriptEngine;
@@ -28,6 +31,7 @@ public class Console
 	private WrapperProperties properties;
 	private StandardInput standardInput;
 	private StandardOutput standardOutput;
+	private ScriptEngineManager scriptEngineManager;
 	
 	/**
 	 * Creates a <code>Console</code> wrapper, which monitors the standard input
@@ -43,8 +47,45 @@ public class Console
 		this.properties = properties;
 		this.standardInput = new StandardInput(properties.getCharset());
 		this.standardOutput = new StandardOutput();
+		initScriptEngineManager();
 		addInputProcessor();
 		addOutputProcessor();
+	}
+	
+	/**
+	 * Initializes the <code>ScriptEngineManager</code> used for executing
+	 * scripts.
+	 */
+	private void initScriptEngineManager()
+	{
+		if (properties.getScriptEngineDirectory() != null)
+		{
+			try
+			{
+				File[] scriptEngineFiles = properties.getScriptEngineDirectory().listFiles(new FilenameFilter()
+				{
+					@Override
+					public boolean accept(File dir, String name)
+					{
+						return Console.this.properties.getScriptEngineFileRegex().matcher(name).matches();
+					}
+				});
+				URL[] scriptEngineUrls = new URL[scriptEngineFiles.length];
+				for (int i = 0; i < scriptEngineUrls.length; i++)
+				{
+					scriptEngineUrls[i] = scriptEngineFiles[i].toURI().toURL();
+				}
+				scriptEngineManager = new ScriptEngineManager(URLClassLoader.newInstance(scriptEngineUrls, ClassLoader.getSystemClassLoader()));
+			}
+			catch (Exception e)
+			{
+				e.printStackTrace();
+			}
+		}
+		if (scriptEngineManager == null)
+		{
+			scriptEngineManager = new ScriptEngineManager();
+		}
 	}
 	
 	/**
@@ -108,8 +149,7 @@ public class Console
 	{
 		String[] tokens = commandText.split("\\s+");
 		File scriptFile = new File(properties.getScriptDirectory(), tokens[0] + properties.getScriptExtension());
-		ScriptEngineManager factory = new ScriptEngineManager();
-		ScriptEngine engine = factory.getEngineByName(properties.getScriptType());
+		ScriptEngine engine = scriptEngineManager.getEngineByName(properties.getScriptType());
 		engine.put(ScriptEngine.FILENAME, scriptFile.toString());
 		FileReader reader = null;
 		try

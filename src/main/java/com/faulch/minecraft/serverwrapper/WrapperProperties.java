@@ -28,6 +28,8 @@ public class WrapperProperties
 	private Pattern serverFileRegex;
 	private Pattern inputRegex;
 	private Pattern outputRegex;
+	private File scriptEngineDirectory;
+	private Pattern scriptEngineFileRegex;
 	private File scriptDirectory;
 	private String scriptType;
 	private String scriptExtension;
@@ -172,6 +174,28 @@ public class WrapperProperties
 	public File getScriptDirectory()
 	{
 		return scriptDirectory;
+	}
+	
+	/**
+	 * Gets the directory which the application will use to search for script
+	 * engine files.
+	 *
+	 * @return the script engine directory where the script engine files are
+	 *         located
+	 */
+	public File getScriptEngineDirectory() {
+		return scriptEngineDirectory;
+	}
+	
+	/**
+	 * Gets the regex which will be used to search for script engine files in
+	 * the script engine directory.
+	 *
+	 * @return the script engine file regex used to search for script engine
+	 *         files
+	 */
+	public Pattern getScriptEngineFileRegex() {
+		return scriptEngineFileRegex;
 	}
 	
 	/**
