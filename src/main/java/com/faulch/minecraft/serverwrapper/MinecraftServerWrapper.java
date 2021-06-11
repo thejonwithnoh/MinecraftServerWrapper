@@ -6,6 +6,7 @@ import java.io.IOException;
 import java.net.URL;
 import java.net.URLClassLoader;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.jar.Attributes;
 import java.util.jar.JarFile;
 
@@ -78,8 +79,7 @@ public class MinecraftServerWrapper
 				return properties.getServerFileRegex().matcher(name).matches();
 			}
 		});
-		Arrays.sort(serverFiles);
-		return serverFiles[serverFiles.length - 1]; 
+		return Collections.max(Arrays.asList(serverFiles));
 	}
 	
 	/**
