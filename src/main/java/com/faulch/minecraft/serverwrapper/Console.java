@@ -147,13 +147,13 @@ public class Console
 	 */
 	private void runScript(Invoker invoker, String commandText)
 	{
-		String[] tokens = commandText.split("\\s+");
-		File scriptFile = new File(properties.getScriptDirectory(), tokens[0] + properties.getScriptExtension());
-		ScriptEngine engine = scriptEngineManager.getEngineByName(properties.getScriptType());
-		engine.put(ScriptEngine.FILENAME, scriptFile.toString());
 		FileReader reader = null;
 		try
 		{
+			String[] tokens = commandText.split("\\s+");
+			File scriptFile = new File(properties.getScriptDirectory(), tokens[0] + properties.getScriptExtension());
+			ScriptEngine engine = scriptEngineManager.getEngineByName(properties.getScriptType());
+			engine.put(ScriptEngine.FILENAME, scriptFile.toString());
 			engine.put("args", tokens);
 			engine.put("console", this);
 			engine.put("invoker", invoker);
