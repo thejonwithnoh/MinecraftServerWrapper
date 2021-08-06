@@ -11,7 +11,7 @@ import com.faulch.minecraft.serverwrapper.Console;
  */
 public abstract class AbstractInvoker implements Invoker {
 
-	private Console console;
+	private final Console console;
 
 	/**
 	 * Creates an <code>AbstractInvoker</code> and associates a console with the

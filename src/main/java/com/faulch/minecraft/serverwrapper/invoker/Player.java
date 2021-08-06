@@ -11,7 +11,7 @@ import com.faulch.minecraft.serverwrapper.Console;
  */
 public class Player extends AbstractInvoker {
 
-	private String name;
+	private final String name;
 
 	/**
 	 * Creates a <code>Player</code> which can be used to identify and

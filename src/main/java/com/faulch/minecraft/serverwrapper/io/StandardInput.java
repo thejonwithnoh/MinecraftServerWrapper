@@ -3,7 +3,10 @@ package com.faulch.minecraft.serverwrapper.io;
 import com.faulch.minecraft.serverwrapper.Utility;
 import com.faulch.minecraft.serverwrapper.line.LineEmitter;
 
-import java.io.*;
+import java.io.BufferedReader;
+import java.io.ByteArrayInputStream;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.nio.charset.Charset;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;
@@ -19,9 +22,9 @@ import java.util.concurrent.LinkedBlockingQueue;
  */
 public class StandardInput extends LineEmitter {
 
-	private Charset charset;
-	private InputStream originalInput;
-	private BlockingQueue<String> lines;
+	private final Charset charset;
+	private final InputStream originalInput;
+	private final BlockingQueue<String> lines;
 	private ByteArrayInputStream lineStream;
 
 	/**
@@ -52,7 +55,7 @@ public class StandardInput extends LineEmitter {
 			 * available to be read.
 			 */
 			@Override
-			public int read() throws IOException {
+			public int read() {
 				int value = lineStream.read();
 				if (value == -1) {
 					try {
@@ -62,7 +65,6 @@ public class StandardInput extends LineEmitter {
 						value = lineStream.read();
 					} catch (InterruptedException e) {
 						e.printStackTrace();
-						value = -1;
 					}
 				}
 				return value;
@@ -78,7 +80,7 @@ public class StandardInput extends LineEmitter {
 			 * {@inheritDoc}
 			 */
 			@Override
-			public int read(byte[] b, int off, int len) throws IOException {
+			public int read(byte[] b, int off, int len) {
 				if (b == null) {
 					throw new NullPointerException();
 				} else if (off < 0 || len < 0 || len > b.length - off) {

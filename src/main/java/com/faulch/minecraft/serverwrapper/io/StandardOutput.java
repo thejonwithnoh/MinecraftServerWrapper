@@ -3,7 +3,6 @@ package com.faulch.minecraft.serverwrapper.io;
 import com.faulch.minecraft.serverwrapper.line.LineEmitter;
 
 import java.io.ByteArrayOutputStream;
-import java.io.IOException;
 import java.io.OutputStream;
 import java.io.PrintStream;
 
@@ -17,7 +16,7 @@ import java.io.PrintStream;
  */
 public class StandardOutput extends LineEmitter {
 
-	private PrintStream originalOutput;
+	private final PrintStream originalOutput;
 
 	/**
 	 * Creates a <code>StandardOutput</code> object, which replaces the current
@@ -27,10 +26,10 @@ public class StandardOutput extends LineEmitter {
 	public StandardOutput() {
 		originalOutput = System.out;
 		System.setOut(new PrintStream(new OutputStream() {
-			ByteArrayOutputStream byteBuffer = new ByteArrayOutputStream();
+			private final ByteArrayOutputStream byteBuffer = new ByteArrayOutputStream();
 
 			@Override
-			public void write(int b) throws IOException {
+			public void write(int b) {
 				originalOutput.write(b);
 				if ("\r\n".contains(Character.toString((char) b))) {
 					if (byteBuffer.size() > 0) {

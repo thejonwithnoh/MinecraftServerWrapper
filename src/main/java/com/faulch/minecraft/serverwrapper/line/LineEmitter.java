@@ -13,7 +13,7 @@ import java.util.List;
  */
 public class LineEmitter {
 
-	private List<LineProcessor> lineProcessors;
+	private final List<LineProcessor> lineProcessors;
 
 	/**
 	 * Creates a <code>LineEmitter</code> with an empty processing list.

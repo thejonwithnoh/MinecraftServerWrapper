@@ -24,9 +24,9 @@ import java.util.regex.Matcher;
  */
 public class Console {
 
-	private WrapperProperties properties;
-	private StandardInput standardInput;
-	private StandardOutput standardOutput;
+	private final WrapperProperties properties;
+	private final StandardInput standardInput;
+	private final StandardOutput standardOutput;
 	private ScriptEngineManager scriptEngineManager;
 
 	/**

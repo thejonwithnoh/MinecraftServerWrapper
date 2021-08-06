@@ -11,7 +11,7 @@ package com.faulch.minecraft.serverwrapper.line;
  */
 public class LineEvent {
 
-	private String line;
+	private final String line;
 	private boolean cancelled;
 
 	/**

@@ -19,7 +19,7 @@ public class WrapperProperties {
 			defaultPropertiesFileName = "default.properties",
 			wrapperPropertiesFileName = "wrapper.properties";
 
-	private Properties properties;
+	private final Properties properties;
 	private File serverDirectory;
 	private Pattern serverFileRegex;
 	private Pattern inputRegex;
