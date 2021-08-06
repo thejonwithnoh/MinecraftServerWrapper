@@ -32,8 +32,8 @@ public class MinecraftServerWrapper
 	 */
 	public MinecraftServerWrapper(String... args) throws IOException
 	{
-		loadLibrary();
 		loadProperties();
+		loadLibrary();
 		new Console(properties);
 		startServer(args);
 	}
