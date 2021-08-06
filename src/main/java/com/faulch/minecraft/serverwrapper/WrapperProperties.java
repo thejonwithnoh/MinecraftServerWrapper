@@ -30,6 +30,8 @@ public class WrapperProperties
 	private Pattern outputRegex;
 	private File scriptEngineDirectory;
 	private Pattern scriptEngineFileRegex;
+	private File libraryDirectory;
+	private Pattern libraryFileRegex;
 	private File scriptDirectory;
 	private String scriptType;
 	private String scriptExtension;
@@ -197,7 +199,27 @@ public class WrapperProperties
 	public Pattern getScriptEngineFileRegex() {
 		return scriptEngineFileRegex;
 	}
-	
+
+	/**
+	 * Gets the directory which the application will use to search for library
+	 * files.
+	 *
+	 * @return the library directory where the library files are located
+	 */
+	public File getLibraryDirectory() {
+		return libraryDirectory;
+	}
+
+	/**
+	 * Gets the regex which will be used to search for library files in the
+	 * library directory.
+	 *
+	 * @return the library file regex used to search for library files
+	 */
+	public Pattern getLibraryFileRegex() {
+		return libraryFileRegex;
+	}
+
 	/**
 	 * Gets the name of the type of scripts which will be executed.  This will
 	 * be used by the Java Scripting API to identify the script engine which

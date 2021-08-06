@@ -32,9 +32,24 @@ public class MinecraftServerWrapper
 	 */
 	public MinecraftServerWrapper(String... args) throws IOException
 	{
+		loadLibrary();
 		loadProperties();
 		new Console(properties);
 		startServer(args);
+	}
+
+	/**
+	 * Loads any extra libraries that should be on the classpath.
+	 *
+	 * @throws IOException
+	 *         if the files could not be loaded
+	 */
+	private void loadLibrary() throws IOException
+	{
+		if (properties.getLibraryDirectory() != null)
+		{
+			Thread.currentThread().setContextClassLoader(Utility.createURLClassLoader(Utility.getFiles(properties.getLibraryDirectory(), properties.getLibraryFileRegex())));
+		}
 	}
 	
 	/**
