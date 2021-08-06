@@ -1,7 +1,7 @@
 Minecraft Server Wrapper 
 ========================
 
-Copyright (c) 2016 Jonathan Faulch
+Copyright (c) 2016-2021 Jonathan Faulch
 
 About
 -----
