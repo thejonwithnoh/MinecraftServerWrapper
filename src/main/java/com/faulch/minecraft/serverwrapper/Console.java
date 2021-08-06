@@ -2,9 +2,6 @@ package com.faulch.minecraft.serverwrapper;
 
 import java.io.File;
 import java.io.FileReader;
-import java.io.FilenameFilter;
-import java.net.URL;
-import java.net.URLClassLoader;
 import java.util.regex.Matcher;
 
 import javax.script.ScriptEngine;
@@ -62,20 +59,7 @@ public class Console
 		{
 			try
 			{
-				File[] scriptEngineFiles = properties.getScriptEngineDirectory().listFiles(new FilenameFilter()
-				{
-					@Override
-					public boolean accept(File dir, String name)
-					{
-						return Console.this.properties.getScriptEngineFileRegex().matcher(name).matches();
-					}
-				});
-				URL[] scriptEngineUrls = new URL[scriptEngineFiles.length];
-				for (int i = 0; i < scriptEngineUrls.length; i++)
-				{
-					scriptEngineUrls[i] = scriptEngineFiles[i].toURI().toURL();
-				}
-				scriptEngineManager = new ScriptEngineManager(URLClassLoader.newInstance(scriptEngineUrls, ClassLoader.getSystemClassLoader()));
+				scriptEngineManager = new ScriptEngineManager(Utility.createURLClassLoader(Utility.getFiles(properties.getScriptEngineDirectory(), properties.getScriptEngineFileRegex())));
 			}
 			catch (Exception e)
 			{

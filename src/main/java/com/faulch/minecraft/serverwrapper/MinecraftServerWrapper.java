@@ -1,10 +1,7 @@
 package com.faulch.minecraft.serverwrapper;
 
 import java.io.File;
-import java.io.FilenameFilter;
 import java.io.IOException;
-import java.net.URL;
-import java.net.URLClassLoader;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.jar.Attributes;
@@ -71,15 +68,7 @@ public class MinecraftServerWrapper
 	 */
 	private File getServerFile()
 	{
-		File[] serverFiles = properties.getServerDirectory().listFiles(new FilenameFilter()
-		{
-			@Override
-			public boolean accept(File dir, String name)
-			{
-				return properties.getServerFileRegex().matcher(name).matches();
-			}
-		});
-		return Collections.max(Arrays.asList(serverFiles));
+		return Collections.max(Arrays.asList(Utility.getFiles(properties.getServerDirectory(), properties.getServerFileRegex())));
 	}
 	
 	/**
@@ -103,7 +92,7 @@ public class MinecraftServerWrapper
 				(
 					new JarFile(serverFile).getManifest().getMainAttributes().getValue(Attributes.Name.MAIN_CLASS),
 					true,
-					URLClassLoader.newInstance(new URL[]{serverFile.toURI().toURL()}, ClassLoader.getSystemClassLoader())
+					Utility.createURLClassLoader(serverFile)
 				)
 				.getMethod("main", String[].class)
 				.invoke(null, (Object)args);

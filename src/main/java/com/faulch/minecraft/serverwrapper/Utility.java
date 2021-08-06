@@ -1,7 +1,8 @@
 package com.faulch.minecraft.serverwrapper;
 
 import java.io.File;
-import java.lang.reflect.Method;
+import java.io.FilenameFilter;
+import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLClassLoader;
 import java.util.regex.Pattern;
@@ -26,6 +27,49 @@ public final class Utility
 	 * cached value to prevent needless repeated system property lookups.  
 	 */
 	public static final String lineSeparator = System.getProperty("line.separator");
+
+	/**
+	 * Searches a directory for all files matching a given pattern.
+	 *
+	 * @param   directory
+	 *          the directory to search for files within
+	 * @param   pattern
+	 *          the pattern to match files against
+	 * @return  an array of files loaded from the given directory matching the
+	 *          given pattern
+	 */
+	public static final File[] getFiles(File directory, final Pattern pattern)
+	{
+		File[] files = directory.listFiles(new FilenameFilter()
+		{
+			@Override
+			public boolean accept(File dir, String name)
+			{
+				return pattern.matcher(name).matches();
+			}
+		});
+		return files == null ? new File[0] : files;
+	}
+
+	/**
+	 * Creates a <code>URLClassLoader</code> from an array of jar files
+	 * provided as a <code>File</code> array.
+	 *
+	 * @param   files
+	 *          the jar files to be loaded
+	 * @return  a <code>URLClassLoader</code> using the provided jar files
+	 * @throws  MalformedURLException
+	 *          if the files given somehow don't convert to URLs
+	 */
+	public static final URLClassLoader createURLClassLoader(File... files) throws MalformedURLException
+	{
+		URL[] urls = new URL[files.length];
+		for (int i = 0; i < files.length; i++)
+		{
+			urls[i] = files[i].toURI().toURL();
+		}
+		return URLClassLoader.newInstance(urls, ClassLoader.getSystemClassLoader());
+	}
 	
 	/**
 	 * Attempts to close the specified object, and returns any exceptions
