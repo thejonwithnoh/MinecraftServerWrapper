@@ -24,6 +24,7 @@ public class WrapperProperties {
 	private Pattern serverFileRegex;
 	private Pattern inputRegex;
 	private Pattern outputRegex;
+	private File systemPropertiesFile;
 	private File scriptEngineDirectory;
 	private Pattern scriptEngineFileRegex;
 	private File libraryDirectory;
@@ -138,6 +139,16 @@ public class WrapperProperties {
 	 */
 	public Pattern getOutputRegex() {
 		return outputRegex;
+	}
+
+	/**
+	 * Gets the file which will be used to merge additional system properties
+	 * into the existing system properties.
+	 *
+	 * @return the additional system properties file
+	 */
+	public File getSystemPropertiesFile() {
+		return systemPropertiesFile;
 	}
 
 	/**

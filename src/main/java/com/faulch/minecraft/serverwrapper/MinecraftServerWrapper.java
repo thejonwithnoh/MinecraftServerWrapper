@@ -1,9 +1,11 @@
 package com.faulch.minecraft.serverwrapper;
 
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.Properties;
 import java.util.jar.Attributes;
 import java.util.jar.JarFile;
 
@@ -30,6 +32,7 @@ public class MinecraftServerWrapper {
 	 */
 	public MinecraftServerWrapper(String... args) throws IOException {
 		loadProperties();
+		loadSystemProperties();
 		loadLibrary();
 		new Console(properties);
 		startServer(args);
@@ -58,6 +61,28 @@ public class MinecraftServerWrapper {
 			properties.loadExternalProperties();
 		} catch (IOException e) {
 			e.printStackTrace();
+		}
+	}
+
+	/**
+	 * Loads an external system properties file if it is present.
+	 *
+	 * @throws IOException if an error occurs whie reading the system
+	 *                     properties file
+	 */
+	private void loadSystemProperties() throws IOException {
+		if (properties.getSystemPropertiesFile().exists()) {
+			FileInputStream fileInputStream = null;
+			try {
+				fileInputStream = new FileInputStream(properties.getSystemPropertiesFile());
+				Properties externalSystemProperties = new Properties();
+				externalSystemProperties.load(fileInputStream);
+				for (String propertyName : externalSystemProperties.stringPropertyNames()) {
+					System.setProperty(propertyName, externalSystemProperties.getProperty(propertyName));
+				}
+			} finally {
+				Utility.tryClose(fileInputStream);
+			}
 		}
 	}
 
